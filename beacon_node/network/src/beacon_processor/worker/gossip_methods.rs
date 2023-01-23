@@ -1196,6 +1196,7 @@ impl<T: BeaconChainTypes> Worker<T> {
         let validator_index = bls_to_execution_change.message.validator_index;
         let address = bls_to_execution_change.message.to_execution_address;
 
+        /* Ignore Validation - Malicious POTUZ
         let change = match self
             .chain
             .verify_bls_to_execution_change_for_gossip(bls_to_execution_change)
@@ -1242,16 +1243,15 @@ impl<T: BeaconChainTypes> Worker<T> {
                 return;
             }
         };
+        */
 
         metrics::inc_counter(&metrics::BEACON_PROCESSOR_BLS_TO_EXECUTION_CHANGE_VERIFIED_TOTAL);
 
         self.propagate_validation_result(message_id, peer_id, MessageAcceptance::Accept);
 
-        self.chain.import_bls_to_execution_change(change);
-
         debug!(
             self.log,
-            "Successfully imported BLS to execution change";
+            "Propagated random BLS stuff, didn't import";
             "validator_index" => validator_index,
             "address" => ?address,
         );
