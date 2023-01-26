@@ -1680,75 +1680,92 @@ pub fn serve<T: BeaconChainTypes>(
              network_tx: UnboundedSender<NetworkMessage<T::EthSpec>>,
              log: Logger| {
                 blocking_json_task(move || {
-                    let mut failures = vec![];
-
                     for (index, address_change) in address_changes.into_iter().enumerate() {
                         let validator_index = address_change.message.validator_index;
 
-                        match chain.verify_bls_to_execution_change_for_http_api(address_change) {
-                            Ok(ObservationOutcome::New(verified_address_change)) => {
-                                let validator_index =
-                                    verified_address_change.as_inner().message.validator_index;
-                                let address = verified_address_change
-                                    .as_inner()
-                                    .message
-                                    .to_execution_address;
+                        // Publish but do not insert, regardless of pre/post fork.
 
-                                // New to P2P *and* op pool, gossip immediately if post-Capella.
-                                let publish = chain.current_slot_is_post_capella().unwrap_or(false);
-                                if publish {
-                                    publish_pubsub_message(
-                                        &network_tx,
-                                        PubsubMessage::BlsToExecutionChange(Box::new(
-                                            verified_address_change.as_inner().clone(),
-                                        )),
-                                    )?;
+                        publish_pubsub_message(
+                            &network_tx,
+                            PubsubMessage::BlsToExecutionChange(Box::new(address_change.clone())),
+                        )?;
+                        info!(
+                            log,
+                            "Propagated BLS to execution change without verifying";
+                            "validator_index" => validator_index,
+                            "address" => ?address_change.message.to_execution_address,
+                            "published" => true,
+                            "imported" => false,
+                        );
+
+                        /*
+                            match chain.verify_bls_to_execution_change_for_http_api(address_change) {
+                                Ok(ObservationOutcome::New(verified_address_change)) => {
+                                    let validator_index =
+                                        verified_address_change.as_inner().message.validator_index;
+                                    let address = verified_address_change
+                                        .as_inner()
+                                        .message
+                                        .to_execution_address;
+
+                                    // New to P2P *and* op pool, gossip immediately if post-Capella.
+                                    let publish = chain.current_slot_is_post_capella().unwrap_or(false);
+                                    if publish {
+                                        publish_pubsub_message(
+                                            &network_tx,
+                                            PubsubMessage::BlsToExecutionChange(Box::new(
+                                                verified_address_change.as_inner().clone(),
+                                            )),
+                                        )?;
+                                    }
+
+                                    // Import to op pool (may return `false` if there's a race).
+                                    let imported =
+                                        chain.import_bls_to_execution_change(verified_address_change);
+
+                                    info!(
+                                        log,
+                                        "Processed BLS to execution change";
+                                        "validator_index" => validator_index,
+                                        "address" => ?address,
+                                        "published" => publish,
+                                        "imported" => imported,
+                                    );
                                 }
-
-                                // Import to op pool (may return `false` if there's a race).
-                                let imported =
-                                    chain.import_bls_to_execution_change(verified_address_change);
-
-                                info!(
-                                    log,
-                                    "Processed BLS to execution change";
-                                    "validator_index" => validator_index,
-                                    "address" => ?address,
-                                    "published" => publish,
-                                    "imported" => imported,
-                                );
-                            }
-                            Ok(ObservationOutcome::AlreadyKnown) => {
-                                debug!(
-                                    log,
-                                    "BLS to execution change already known";
-                                    "validator_index" => validator_index,
-                                );
-                            }
-                            Err(e) => {
-                                warn!(
-                                    log,
-                                    "Invalid BLS to execution change";
-                                    "validator_index" => validator_index,
-                                    "reason" => ?e,
-                                    "source" => "HTTP",
-                                );
-                                failures.push(api_types::Failure::new(
-                                    index,
-                                    format!("invalid: {e:?}"),
-                                ));
+                                Ok(ObservationOutcome::AlreadyKnown) => {
+                                    debug!(
+                                        log,
+                                        "BLS to execution change already known";
+                                        "validator_index" => validator_index,
+                                    );
+                                }
+                                Err(e) => {
+                                    warn!(
+                                        log,
+                                        "Invalid BLS to execution change";
+                                        "validator_index" => validator_index,
+                                        "reason" => ?e,
+                                        "source" => "HTTP",
+                                    );
+                                    failures.push(api_types::Failure::new(
+                                        index,
+                                        format!("invalid: {e:?}"),
+                                    ));
+                                }
                             }
                         }
-                    }
 
-                    if failures.is_empty() {
-                        Ok(())
-                    } else {
-                        Err(warp_utils::reject::indexed_bad_request(
-                            "some BLS to execution changes failed to verify".into(),
-                            failures,
-                        ))
+                        if failures.is_empty() {
+                            Ok(())
+                        } else {
+                            Err(warp_utils::reject::indexed_bad_request(
+                                "some BLS to execution changes failed to verify".into(),
+                                failures,
+                            ))
+                        }
+                        */
                     }
+                    Ok(())
                 })
             },
         );
