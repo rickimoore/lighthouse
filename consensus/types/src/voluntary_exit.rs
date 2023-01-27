@@ -50,7 +50,7 @@ impl VoluntaryExit {
         let message = self.signing_root(domain);
         SignedVoluntaryExit {
             message: self,
-            signature: secret_key.sign(message),
+            signature: secret_key.sign(message).into(),
         }
     }
 }

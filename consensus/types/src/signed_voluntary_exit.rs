@@ -1,5 +1,5 @@
 use crate::{test_utils::TestRandom, VoluntaryExit};
-use bls::Signature;
+use bls::SignatureBytes;
 
 use serde_derive::{Deserialize, Serialize};
 use ssz_derive::{Decode, Encode};
@@ -24,7 +24,7 @@ use tree_hash_derive::TreeHash;
 )]
 pub struct SignedVoluntaryExit {
     pub message: VoluntaryExit,
-    pub signature: Signature,
+    pub signature: SignatureBytes,
 }
 
 #[cfg(test)]

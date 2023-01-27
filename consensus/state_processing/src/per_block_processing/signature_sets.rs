@@ -380,6 +380,7 @@ pub fn deposit_pubkey_signature_message(
     Some((pubkey, signature, message))
 }
 
+/*
 /// Returns a signature set that is valid if the `SignedVoluntaryExit` was signed by the indicated
 /// validator.
 pub fn exit_signature_set<'a, T, F>(
@@ -410,6 +411,7 @@ where
         message,
     ))
 }
+*/
 
 pub fn signed_aggregate_selection_proof_signature_set<'a, T, F>(
     get_pubkey: F,

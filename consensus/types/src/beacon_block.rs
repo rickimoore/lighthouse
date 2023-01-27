@@ -360,7 +360,7 @@ impl<T: EthSpec, Payload: AbstractExecPayload<T>> BeaconBlockBase<T, Payload> {
 
         let signed_voluntary_exit = SignedVoluntaryExit {
             message: voluntary_exit,
-            signature: Signature::empty(),
+            signature: Signature::empty().into(),
         };
 
         let mut block = BeaconBlockBase::<T, Payload>::empty(spec);

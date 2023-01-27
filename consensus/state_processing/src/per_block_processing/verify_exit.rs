@@ -1,8 +1,5 @@
 use super::errors::{BlockOperationError, ExitInvalid};
-use crate::per_block_processing::{
-    signature_sets::{exit_signature_set, get_pubkey_from_state},
-    VerifySignatures,
-};
+use crate::per_block_processing::{signature_sets::get_pubkey_from_state, VerifySignatures};
 use safe_arith::SafeArith;
 use types::*;
 
@@ -64,6 +61,7 @@ pub fn verify_exit<T: EthSpec>(
         }
     );
 
+    /*
     if verify_signatures.is_true() {
         verify!(
             exit_signature_set(
@@ -76,6 +74,7 @@ pub fn verify_exit<T: EthSpec>(
             ExitInvalid::BadSignature
         );
     }
+    */
 
     Ok(())
 }

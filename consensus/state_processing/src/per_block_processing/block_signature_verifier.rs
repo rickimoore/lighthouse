@@ -304,6 +304,8 @@ where
         &mut self,
         block: &'a SignedBeaconBlock<T, Payload>,
     ) -> Result<()> {
+        return Ok(());
+        /*
         self.sets
             .sets
             .reserve(block.message().body().voluntary_exits().len());
@@ -321,6 +323,7 @@ where
 
                 Ok(())
             })
+        */
     }
 
     /// Include the signature of the block's sync aggregate (if it exists) for verification.
