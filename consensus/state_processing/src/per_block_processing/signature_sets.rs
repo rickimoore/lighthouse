@@ -10,7 +10,7 @@ use types::{
     AbstractExecPayload, AggregateSignature, AttesterSlashing, BeaconBlockRef, BeaconState,
     BeaconStateError, ChainSpec, DepositData, Domain, Epoch, EthSpec, Fork, Hash256,
     InconsistentFork, IndexedAttestation, ProposerSlashing, PublicKey, PublicKeyBytes, Signature,
-    SignedAggregateAndProof, SignedBeaconBlock, SignedBeaconBlockHeader,
+    SignatureBytes, SignedAggregateAndProof, SignedBeaconBlock, SignedBeaconBlockHeader,
     SignedBlsToExecutionChange, SignedContributionAndProof, SignedRoot, SignedVoluntaryExit,
     SigningData, Slot, SyncAggregate, SyncAggregatorSelectionData, Unsigned,
 };
@@ -156,11 +156,13 @@ where
     ))
 }
 
+/*
 pub fn bls_execution_change_signature_set<'a, T: EthSpec>(
     state: &'a BeaconState<T>,
     signed_address_change: &'a SignedBlsToExecutionChange,
     spec: &'a ChainSpec,
 ) -> Result<SignatureSet<'a>> {
+    /*
     let domain = spec.compute_domain(
         Domain::BlsToExecutionChange,
         spec.genesis_fork_version,
@@ -174,13 +176,19 @@ pub fn bls_execution_change_signature_set<'a, T: EthSpec>(
             .decompress()
             .map_err(|_| Error::PublicKeyDecompressionFailed)?,
     );
+    */
 
+    return Err(Error::ValidatorUnknown(424242));
+
+    /*
     Ok(SignatureSet::single_pubkey(
-        &signed_address_change.signature,
+        &signature,
         signing_key,
         message,
     ))
+        */
 }
+*/
 
 /// A signature set that is valid if the block proposers randao reveal signature is correct.
 pub fn randao_signature_set<'a, T, F, Payload: AbstractExecPayload<T>>(

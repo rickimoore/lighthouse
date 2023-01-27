@@ -1,6 +1,6 @@
 use crate::test_utils::TestRandom;
 use crate::*;
-use bls::Signature;
+use bls::SignatureBytes;
 use serde_derive::{Deserialize, Serialize};
 use ssz_derive::{Decode, Encode};
 use test_random_derive::TestRandom;
@@ -21,7 +21,7 @@ use tree_hash_derive::TreeHash;
 )]
 pub struct SignedBlsToExecutionChange {
     pub message: BlsToExecutionChange,
-    pub signature: Signature,
+    pub signature: SignatureBytes,
 }
 
 #[cfg(test)]

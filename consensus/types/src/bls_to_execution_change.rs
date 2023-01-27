@@ -43,7 +43,7 @@ impl BlsToExecutionChange {
         let message = self.signing_root(domain);
         SignedBlsToExecutionChange {
             message: self,
-            signature: secret_key.sign(message),
+            signature: secret_key.sign(message).into(),
         }
     }
 }

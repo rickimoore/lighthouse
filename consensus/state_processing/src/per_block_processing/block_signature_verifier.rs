@@ -351,13 +351,15 @@ where
         // FIXME(capella): to improve performance we might want to decompress the withdrawal pubkeys
         // in parallel.
         if let Ok(bls_to_execution_changes) = block.message().body().bls_to_execution_changes() {
-            for bls_to_execution_change in bls_to_execution_changes {
-                self.sets.push(bls_execution_change_signature_set(
-                    self.state,
-                    bls_to_execution_change,
-                    self.spec,
-                )?);
-            }
+            /*
+                for bls_to_execution_change in bls_to_execution_changes {
+                                    self.sets.push(bls_execution_change_signature_set(
+                                        self.state,
+                                        bls_to_execution_change,
+                                        self.spec,
+                                    )?);
+                }
+            */
         }
         Ok(())
     }

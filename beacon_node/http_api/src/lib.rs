@@ -1591,6 +1591,7 @@ pub fn serve<T: BeaconChainTypes>(
              exit: SignedVoluntaryExit,
              network_tx: UnboundedSender<NetworkMessage<T::EthSpec>>| {
                 blocking_json_task(move || {
+                    /*
                     let outcome = chain
                         .verify_voluntary_exit_for_gossip(exit.clone())
                         .map_err(|e| {
@@ -1605,7 +1606,9 @@ pub fn serve<T: BeaconChainTypes>(
                         .validator_monitor
                         .read()
                         .register_api_voluntary_exit(&exit.message);
+                    */
 
+                    /*
                     if let ObservationOutcome::New(exit) = outcome {
                         publish_pubsub_message(
                             &network_tx,
@@ -1614,6 +1617,12 @@ pub fn serve<T: BeaconChainTypes>(
 
                         chain.import_voluntary_exit(exit);
                     }
+                    */
+
+                    publish_pubsub_message(
+                        &network_tx,
+                        PubsubMessage::VoluntaryExit(Box::new(exit.clone())),
+                    )?;
 
                     Ok(())
                 })
