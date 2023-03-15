@@ -2,6 +2,9 @@
 
 Siren runs on Linux, MacOS and Windows.
 
+## Version Requirement
+The Siren app requires Lighthouse v3.5.1 or higher to function properly. These versions can be found on the [releases](https://github.com/sigp/lighthouse/releases) page of the Lighthouse repository.
+
 
 ## Pre-Built Electron Packages
 
@@ -16,7 +19,7 @@ Simply download the package specific to your operating system and run it.
 
 ### Requirements
 
-Building from source requires `Node v18` and `yarn`. 
+Building from source requires `Node v18` and `yarn`.
 
 ### Building From Source
 
