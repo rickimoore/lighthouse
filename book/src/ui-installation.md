@@ -19,7 +19,7 @@ Simply download the package specific to your operating system and run it.
 
 ### Requirements
 
-Building from source requires `Node v18` and `yarn`.
+Building from source requires `Node v16.16.0` and `yarn`.
 
 ### Building From Source
 
@@ -54,7 +54,7 @@ $ yarn dev
 #### Docker (Recommended)
 
 Docker is the recommended way to run a webserver that hosts Siren and can be
-connected to via a web browser. We recommend this method as it establishes a
+connected to via a web browser. We recommend this method as it established a
 production-grade web-server to host the application.
 
 `docker` is required to be installed with the service running.

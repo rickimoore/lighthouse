@@ -26,7 +26,7 @@ The API Token is a secret key that allows you to connect to the validator
 client. The validator client's HTTP API is guarded by this key because it
 contains sensitive validator information and the ability to modify
 validators. Please see [`Validator Authorization`](./api-vc-auth-header.md)
-for further details. 
+for further details.
 
 Siren requires this token in order to connect to the Validator client.
 The token is located in the default data directory of the validator
@@ -38,7 +38,7 @@ entered.
 
 ## Name
 
-This is your name, it can be modified and is solely used for aesthetics. 
+This is your name, it can be modified and is solely used to aesthetics.
 
 ## Device
 
